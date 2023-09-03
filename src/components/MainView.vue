@@ -2,19 +2,15 @@
     <v-row>
         <v-card flat color="transparent" min-width="100%">
             <EssaySelector />
-            <v-tabs
-                v-model="tab"
-            >
-                <v-tab
-                    value="timeline"
-                    @click="updateActiveTab('timeline')">
+            <v-tabs v-model="tab">
+                <v-tab value="timeline" @click="updateActiveTab('timeline')">
                     {{ $t("general.timelineTab") }}
                 </v-tab>
-                <v-tab
+                <!-- <v-tab
                     value="results"
                     @click="updateActiveTab('results')">
                     {{ $t("general.resultsTab") }}
-                </v-tab>
+                </v-tab> -->
             </v-tabs>
 
             <v-card-text>
@@ -23,9 +19,9 @@
                         <TimelineTab />
                     </v-window-item>
 
-                    <v-window-item value="results">
+                    <!-- <v-window-item value="results">
                         <ResultsTab />
-                    </v-window-item>
+                    </v-window-item> -->
                 </v-window>
             </v-card-text>
         </v-card>
