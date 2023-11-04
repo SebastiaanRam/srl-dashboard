@@ -1,7 +1,8 @@
 import {
     SET_AUTHENTICATION,
     SET_LOADING,
-    SET_USERNAME
+    SET_STUDY,
+    SET_USERNAME,
 } from "../storeconstants";
 
 export default {
@@ -11,6 +12,9 @@ export default {
     },
     [SET_LOADING](state, loading) {
         state.loading = loading
+    },
+    [SET_STUDY](state, study) {
+        state.study = study
     },
     [SET_USERNAME](state, username) {
         state.username = username

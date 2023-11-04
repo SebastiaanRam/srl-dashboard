@@ -7,7 +7,8 @@ export default {
         return {
             authenticated: false,
             loading: false,
-            username: ""
+            study: "",
+            username: "",
         }
     },
     mutations,

@@ -17,9 +17,10 @@ export default {
     }
   },
   actions: {
-    async loadUsers({ commit }, studentNumber) {
+    async loadUsers({ commit }, input) {
+      const { study, username } = input
       let res = await axios.get(
-        import.meta.env.VITE_API_URL + '/tracedata/results/' + studentNumber,
+        import.meta.env.VITE_API_URL + `/tracedata/results/${study}/${username}`,
         {}
       )
 

@@ -40,8 +40,13 @@
             </p>
             <form name="login-form">
                 <div class="mb-3 login-input">
+                    <label for="study">{{ $t("login.study") }} </label><br>
+                    <v-select id="study" :items="studies" v-model="input.study"></v-select>
+                    <input type="text" id="study-custom" class="w-100 mb-4" v-model="input.study_custom"
+                        :placeholder="$t('login.study')" v-if="input.study == 'custom'" />
+                    <br />
                     <label for="username">{{ $t("login.username") }} </label><br>
-                    <input type="text" id="username" v-model="input.username" />
+                    <input type="text" id="username" class="w-100" v-model="input.username" />
                 </div>
                 <p class="error">{{ this.output }}</p>
                 <div>
@@ -57,13 +62,22 @@
 </template>
 
 <script>
-import { GET_USERNAME, IS_LOADING, SET_LOADING, SET_AUTHENTICATION, SET_USERNAME } from "../store/storeconstants";
+import { GET_STUDY, GET_USERNAME, IS_LOADING, SET_LOADING, SET_AUTHENTICATION, SET_STUDY, SET_USERNAME } from "../store/storeconstants";
 
 export default {
     name: 'LoginView',
     data() {
         return {
+            studies: [
+                { title: "cella", value: "cella" },
+                { title: "FLH1", value: "FLH1" },
+                { title: "FLH2", value: "FLH2" },
+                { title: "rus2", value: "rus" },
+                { title: this.$t("login.studyOther"), value: "custom" },
+            ],
             input: {
+                study: "",
+                study_custom: "",
                 username: "",
             },
             output: "",
@@ -74,16 +88,21 @@ export default {
             //make sure username OR password are not empty
             this.$store.commit(`auth/${SET_LOADING}`, true);
             if (this.input.username !== "") {
-                this.$store.commit(`auth/${SET_USERNAME}`, this.input.username);
-                console.log("Waiting for data fetch");
-                this.fetchData();
+                if (this.input.study !== "" && (this.input.study !== "custom" || this.input.study_custom !== "")) {
+                    this.$store.commit(`auth/${SET_STUDY}`, this.input.study == "custom" ? this.input.study_custom : this.input.study);
+                    this.$store.commit(`auth/${SET_USERNAME}`, this.input.username);
+                    this.fetchData();
+                } else {
+                    this.output = this.$t("login.studyEmptyError")
+                    this.$store.commit(`auth/${SET_LOADING}`, false);
+                }
             } else {
                 this.output = this.$t("login.usernameEmptyError")
                 this.$store.commit(`auth/${SET_LOADING}`, false);
             }
         },
         fetchData() {
-            this.$store.dispatch('loadUsers', this.$store.getters[`auth/${GET_USERNAME}`], {
+            this.$store.dispatch('loadUsers', { study: this.$store.getters[`auth/${GET_STUDY}`], username: this.$store.getters[`auth/${GET_USERNAME}`] }, {
                 root: true
             }).then((res) => {
                 console.log(res);
@@ -167,4 +186,5 @@ export default {
     border-radius: 25px;
     margin-top: 30px;
     width: 50%;
-}</style>
+}
+</style>
