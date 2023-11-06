@@ -72,7 +72,7 @@ export default {
                 { title: "cella", value: "cella" },
                 { title: "FLH1", value: "FLH1" },
                 { title: "FLH2", value: "FLH2" },
-                { title: "rus2", value: "rus" },
+                { title: "rus2", value: "rus2" },
                 { title: this.$t("login.studyOther"), value: "custom" },
             ],
             input: {
